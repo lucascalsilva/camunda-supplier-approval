@@ -1,0 +1,85 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-md-4" for="gestorSolicitante">Nome do Gestor Solicitante</label>
+        <div class="controls col-md-8">
+            <input id="gestorSolicitante" type="text"
+                   cam-variable-name="gestorSolicitante"
+                   cam-variable-type="String"
+                   required
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="nomeComprador">Nome do Comprador</label>
+        <div class="controls col-md-8">
+            <input id="nomeComprador" type="text"
+                   cam-variable-name="nomeComprador"
+                   cam-variable-type="String"
+                   required
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="areaDemandante">Área do Demandante</label>
+        <div class="controls col-md-8">
+            <select id="areaDemandante" cam-variable-name="areaDemandante"
+                    cam-variable-type="String" class="form-control" required>
+                <option></option>
+                <option>MKT E COMUNICAÇÃO</option>
+                <option>ADMINISTRAÇÃO</option>
+                <option>OPERAÇÕES</option>
+                <option>ASSISTÊNCIA E PÓS-VENDA</option>
+                <option>GRANDES RISCOS</option>
+                <option>MKT E COMUNICAÇÃO</option>
+                <option>TÉCNICA</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="origemDemanda">Origem Demanda</label>
+        <div class="controls col-md-8">
+            <select id="origemDemanda" cam-variable-name="origemDemanda"
+                    cam-variable-type="String" class="form-control" required>
+                <option></option>
+                <option>VALIDADE</option>
+                <option>AJUSTE</option>
+                <option>SOLICITAÇÃO</option>
+                <option>VALIDADE</option>
+                <option>AJUSTE DE BASE</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="categoria">Categoria</label>
+        <div class="controls col-md-8">
+            <select id="categoria" cam-variable-name="categoria"
+                    cam-variable-type="String" class="form-control" required>
+                <option></option>
+                <option>INFORMAÇÃO</option>
+                <option>FACILIDADES/UTILIDADES</option>
+                <option>CONSULTORIA</option>
+                <option>ASSISTÊNCIA</option>
+                <option>COMUNICAÇÃO E MARKETING</option>
+                <option>PERITOS</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="tipoServico">Tipo de Serviço</label>
+        <div class="controls col-md-8">
+            <select id="tipoServico" cam-variable-name="tipoServico"
+                    cam-variable-type="String" class="form-control" required>
+                <option></option>
+                <option>MOTOBOY</option>
+                <option>INSPEÇÃO SINISTRO AERO E CASCO</option>
+                <option>GUINCHO</option>
+                <option>SERVICOS DE PROPAGANDA E PUBLICIDADE</option>
+                <option>VISTORIA PRÉVIA AUTO</option>
+            </select>
+        </div>
+    </div>
+
+    <script cam-script type="text/form-script">
+        // custom JavaScript goes here
+    </script>
+</form>

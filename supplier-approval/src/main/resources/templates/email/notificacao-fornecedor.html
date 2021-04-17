@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Homologação de Fornecedores</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 48px;
+        }
+    </style>
+</head>
+    <body>
+        <p th:text="${'Olá ' + razaoSocial + ','}"></p>
+        <p>
+            Seu processo de homologação foi <span th:text="${parecer}"></span>.
+
+            <p th:if="${parecer == 'DEVOLVIDO'}">
+                Por favor, acesse nosso portal de fornecedores para verificar mais detalhes.
+
+                <a href="http://localhost:8080/camunda/app/tasklist/default/#/login">Portal de Fornecedores</a>
+            </p>
+        </p>
+        <p>Atenciosamente,</p>
+        <p>Equipe de Homologação de Fornecedores</p>
+    </body>
+</html>

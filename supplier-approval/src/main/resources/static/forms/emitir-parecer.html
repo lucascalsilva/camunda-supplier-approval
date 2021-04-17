@@ -1,0 +1,162 @@
+<form name="form" class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-md-4" for="razaoSocial">Razão Social</label>
+        <div class="controls col-md-8">
+            <input id="razaoSocial"
+                   type="text"
+                   cam-variable-name="razaoSocial"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="cnpj">CNPJ</label>
+        <div class="controls col-md-8">
+            <input id="cnpj" type="text"
+                   cam-variable-name="cnpj"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="email">E-mail</label>
+        <div class="controls col-md-8">
+            <input id="email" type="text"
+                   cam-variable-name="email"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="gestorSolicitante">Nome do Gestor Solicitante</label>
+        <div class="controls col-md-8">
+            <input id="gestorSolicitante" type="text"
+                   cam-variable-name="gestorSolicitante"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="nomeComprador">Nome do Comprador</label>
+        <div class="controls col-md-8">
+            <input id="nomeComprador" type="text"
+                   cam-variable-name="nomeComprador"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="areaDemandante">Área do Demandante</label>
+        <div class="controls col-md-8">
+            <input id="areaDemandante" type="text"
+                   cam-variable-name="areaDemandante"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="origemDemanda">Origem Demanda</label>
+        <div class="controls col-md-8">
+            <input id="origemDemanda" type="text"
+                   cam-variable-name="origemDemanda"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="categoria">Categoria</label>
+        <div class="controls col-md-8">
+            <input id="categoria" type="text"
+                   cam-variable-name="categoria"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="tipoServico">Tipo de Serviço</label>
+        <div class="controls col-md-8">
+            <input id="tipoServico" type="text"
+                   cam-variable-name="tipoServico"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">Documentos Anexados</label>
+        <div class="controls col-md-8">
+            <ul class="list-group" id="documentosAnexados">
+                <li class="list-group-item" ng-repeat="uploadedDoc in uploadedDocs">
+                    <a href="{{uploadedDoc.link}}">{{uploadedDoc.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="parecer">Parecer</label>
+        <div class="controls col-md-8">
+            <select id="parecer" required cam-variable-name="parecer"
+                    cam-variable-type="String"
+                    class="form-control">
+                <option></option>
+                <option value="APROVADO">APROVAR</option>
+                <option value="DEVOLVIDO">DEVOLVER</option>
+                <option value="DECLINADO">DECLINAR</option>
+                <option value="CANCELADO">CANCELAR</option>
+            </select>
+        </div>
+    </div>
+    <div ng-hide="parecer != 'DEVOLVIDO' && parecer != 'DECLINADO' && parecer != 'CANCELADO'" class="form-group">
+        <label class="control-label col-md-4" for="motivo">Motivo</label>
+        <div class="controls col-md-8">
+            <select id="motivo" cam-variable-name="motivo"
+                    cam-variable-type="String"
+                    class="form-control"
+                    ng-required="parecer == 'DEVOLVIDO' || parecer == 'DECLINADO' || parecer == 'CANCELADO'">
+                <option></option>
+                <option>FALTA DE DOCUMENTAÇÃO</option>
+                <option>DOCUMENTAÇÃO POSSUI PROBLEMAS</option>
+                <option>PROCESSO NÃO É MAIS NECESSÁRIO</option>
+            </select>
+        </div>
+    </div>
+    <div ng-hide="parecer != 'DEVOLVIDO' && parecer != 'DECLINADO' && parecer != 'CANCELADO'" class="form-group">
+        <label class="control-label col-md-4" for="descParecer">Descrição do Parecer</label>
+        <div class="controls col-md-8">
+            <textarea id="descParecer"
+                      cam-variable-name="descParecer"
+                      cam-variable-type="String"
+                      class="form-control"
+                      ng-required="parecer == 'DEVOLVIDO' || parecer == 'DECLINADO' || parecer == 'CANCELADO'">
+            </textarea>
+        </div>
+    </div>
+    <script cam-script type="text/form-script">
+        inject(['$http', 'Uri', function($http, Uri) {
+            camForm.on('form-loaded', function() {
+                $http.get(Uri.appUri('engine://engine/:engine/variable-instance?variableNameLike=DOCUMENTO%&processInstanceId='+camForm.processInstanceId))
+                    .then(function(variables) {
+                        $scope.uploadedDocs = variables.data;
+                        $scope.uploadedDocs.forEach(function(uploadedDoc){
+                            uploadedDoc.link = '/engine-rest/variable-instance/' + uploadedDoc.id + '/data';
+                        });
+                    });
+                });
+                camForm.on('form-loaded', function() {});
+                camForm.on('variables-fetched', function() {});
+                camForm.on('submit', function() {
+                    angular.forEach($scope.listaDocumentos, function(listaDocumentos) {
+                        delete listaDocumentos.$$hashKey;
+                    });
+                });
+            }]);
+    </script>
+</form>

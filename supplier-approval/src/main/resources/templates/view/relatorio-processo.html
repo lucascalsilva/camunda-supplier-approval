@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Indicadores do Processo de Homologação</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <style>
+        .navbar-brand {
+            padding: 0px;
+        }
+        .navbar-brand>img {
+            height: 100%;
+            padding: 5px;
+            width: auto;
+        }
+    </style>
+</head>
+    <body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><img src="/resources/images/logo-data.png" alt="Datta">
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active nav-item"><a href="#" class="nav-link">Relatórios</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h1 class="panel-title pull-left">Indicadores do Processo de Homologação de Fornecedores</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <td>CNPJ</td>
+                                        <td>Razão Social</td>
+                                        <td>Parecer</td>
+                                        <td>Descrição do Parecer</td>
+                                        <td>Motivo</td>
+                                        <td>Tempo de Execução</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="instanciaProcessoHomologacao : ${instanciasProcessoHomologacao}">
+                                        <td th:text="${instanciaProcessoHomologacao.cnpj}"></td>
+                                        <td th:text="${instanciaProcessoHomologacao.razaoSocial}"></td>
+                                        <td th:text="${instanciaProcessoHomologacao.parecer}"></td>
+                                        <td th:text="${instanciaProcessoHomologacao.descParecer}"></td>
+                                        <td th:text="${instanciaProcessoHomologacao.motivo}"></td>
+                                        <td th:text="${instanciaProcessoHomologacao.tempoExecucao}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h1 class="panel-title pull-left">Indicadores das Tarefas do Processo de Homologação de Fornecedores</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-inverse">
+                                <tr>
+                                    <td>Usuário</td>
+                                    <td>Tipo de Usuário</td>
+                                    <td>Tarefa</td>
+                                    <td>Tempo Médio de Execução</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <div th:remove="tag" th:each="indicadorTarefa : ${indicadoresTarefa}"
+                                     th:with="indicadoresCount=${indicadorTarefa.tempoMedioTarefas.entrySet().size()}">
+                                    <tr>
+                                        <td th:text="${indicadorTarefa.nomeUsuario}" th:rowspan="${indicadorTarefa.tempoMedioTarefas.entrySet().size()}"></td>
+                                        <td th:text="${indicadorTarefa.tipoUsuario.descricao}" th:rowspan="${indicadorTarefa.tempoMedioTarefas.entrySet().size()}"></td>
+                                        <td th:text="${indicadoresCount>0}?${indicadorTarefa.tempoMedioTarefas.entrySet().iterator().next().getKey()}:''"></td>
+                                        <td th:text="${indicadoresCount>0}?${indicadorTarefa.tempoMedioTarefas.entrySet().iterator().next().getValue()}:''"></td>
+                                    </tr>
+                                    <tr th:each="indicador, stats : ${indicadorTarefa.tempoMedioTarefas.entrySet()}" th:if="${!stats.first}">
+                                        <td th:text="${indicador.getKey()}"></td>
+                                        <td th:text="${indicador.getValue()}"></td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

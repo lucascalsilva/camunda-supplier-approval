@@ -1,0 +1,72 @@
+[
+  {
+    "id": "EM_PAUTA_TECNOLOGIA_EM_COMUNICACAO",
+    "firstName": "EM PAUTA TECNOLOGIA EM COMUNICACAO LTDA - EPP",
+    "lastName": "13902012000153",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "DISK_MOTOBOY_TRANSPORTES_DE_ENCOMENDAS",
+    "firstName": "DISK MOTOBOY TRANSPORTES DE ENCOMENDAS LTDA ME",
+    "lastName": "08624255000137",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "FUNDACAO_FACULDADE_DE_MEDICINA",
+    "firstName": "FUNDACAO FACULDADE DE MEDICINA",
+    "lastName": "56577059000100",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "AUTO_SOCORRO_BARUQUE",
+    "firstName": "AUTO SOCORRO BARUQUE",
+    "lastName": "07989293000120",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "AF_MECANICA_E_TRANSPORTES",
+    "firstName": "AF MECANICA E TRANSPORTES LTDA EPP",
+    "lastName": "30692968000197",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "TREVO_AUTO_SERVICOS_EIRELI",
+    "firstName": "TREVO AUTO SERVICOS EIRELI ME",
+    "lastName": "25282105000101",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "AIR_SAFETY_ASSESSORIA_AERONAUTICA",
+    "firstName": "AIR SAFETY ASSESSORIA AERONAUTICA LTDA EPP",
+    "lastName": "00884470000165",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "GESLAINE_DE_CAMARGO_SANTOS",
+    "firstName": "GESLAINE DE CAMARGO SANTOS - ME",
+    "lastName": "18252570000134",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "KETCHUM_ESTRATEGIA_ASSESSORIA_DE_COMUNICACAO",
+    "firstName": "KETCHUM ESTRATEGIA ASSESSORIA DE COMUNICACAO LTDA. ",
+    "lastName": "56994858000173",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  },
+  {
+    "id": "MEGA_VISTORIAS_AUTOMOTIVAS",
+    "firstName": "MEGA VISTORIAS AUTOMOTIVAS LTDA EPP",
+    "lastName": "14716570000197",
+    "email": "custom.app.tests@gmail.com",
+    "password": "demo"
+  }
+]

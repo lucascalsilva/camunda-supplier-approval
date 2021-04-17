@@ -1,0 +1,218 @@
+<form name="form" class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-md-4" for="razaoSocial">Razão Social</label>
+        <div class="controls col-md-8">
+            <input id="razaoSocial"
+                   type="text"
+                   cam-variable-name="razaoSocial"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="cnpj">CNPJ</label>
+        <div class="controls col-md-8">
+            <input id="cnpj" type="text"
+                   cam-variable-name="cnpj"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="email">E-mail</label>
+        <div class="controls col-md-8">
+            <input id="email" type="text"
+                   cam-variable-name="email"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="gestorSolicitante">Nome do Gestor Solicitante</label>
+        <div class="controls col-md-8">
+            <input id="gestorSolicitante" type="text"
+                   cam-variable-name="gestorSolicitante"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="nomeComprador">Nome do Comprador</label>
+        <div class="controls col-md-8">
+            <input id="nomeComprador" type="text"
+                   cam-variable-name="nomeComprador"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="areaDemandante">Área do Demandante</label>
+        <div class="controls col-md-8">
+            <input id="areaDemandante" type="text"
+                   cam-variable-name="areaDemandante"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="origemDemanda">Origem Demanda</label>
+        <div class="controls col-md-8">
+            <input id="origemDemanda" type="text"
+                   cam-variable-name="origemDemanda"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="categoria">Categoria</label>
+        <div class="controls col-md-8">
+            <input id="categoria" type="text"
+                   cam-variable-name="categoria"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="tipoServico">Tipo de Serviço</label>
+        <div class="controls col-md-8">
+            <input id="tipoServico" type="text"
+                   cam-variable-name="tipoServico"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group" ng-show="uploadedDocs.length > 0">
+        <label class="control-label col-md-4">Documentos Anexados</label>
+        <div class="controls col-md-8">
+            <ul class="list-group" id="documentosAnexados">
+                <li class="list-group-item" ng-repeat="uploadedDoc in uploadedDocs">
+                    <a href="{{uploadedDoc.link}}">{{uploadedDoc.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">Documentos</label>
+        <div class="controls col-md-8">
+            <table class="table table-bordered" id="documentos">
+                <tbody>
+                <tr ng-repeat="documento in listaDocumentos">
+                    <td>
+                        <p>{{documento}}</p>
+                    </td>
+                    <td>
+                        <input type="file" name="{{documento}}"
+                               class="form-control" required
+                               onchange="angular.element(this).scope().upload(this)">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-hide="parecer == '' || parecer == null" class="form-group">
+        <label class="control-label col-md-4" for="parecer">Parecer</label>
+        <div class="controls col-md-8">
+            <input id="parecer"
+                   cam-variable-name="parecer" cam-variable-type="String"
+                   disabled class="form-control" />
+        </div>
+    </div>
+    <div ng-hide="parecer != 'DEVOLVIDO' && parecer != 'DECLINADO'" class="form-group">
+        <label class="control-label col-md-4" for="motivo">Motivo</label>
+        <div class="controls col-md-8">
+            <input id="motivo"
+                   cam-variable-name="motivo" cam-variable-type="String"
+                   disabled class="form-control" />
+        </div>
+    </div>
+    <div ng-hide="parecer != 'DEVOLVIDO' && parecer != 'DECLINADO'" class="form-group">
+        <label class="control-label col-md-4" for="descParecer">Descrição do Parecer</label>
+        <div class="controls col-md-8">
+            <textarea id="descParecer"
+                      cam-variable-name="descParecer"
+                      cam-variable-type="String"
+                      disabled class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="gerarErro">Simular Erro?</label>
+        <div class="controls col-md-8">
+            <input type="checkbox" id="gerarErro"
+                      cam-variable-name="gerarErro"
+                      cam-variable-type="Boolean" class="form-control"/>
+        </div>
+    </div>
+    <script cam-script type="text/form-script">
+        inject(['$http', 'Uri', function($http, Uri) {
+            $scope.files = [];
+
+            camForm.on('form-loaded', function() {
+                camForm.variableManager.fetchVariable('listaDocumentos');
+
+                $http.get(Uri.appUri('engine://engine/:engine/variable-instance?variableNameLike=DOCUMENTO%&processInstanceId='+camForm.processInstanceId))
+                    .then(function(variables) {
+                        $scope.uploadedDocs = variables.data;
+                        $scope.uploadedDocs.forEach(function(uploadedDoc){
+                            uploadedDoc.link = '/engine-rest/variable-instance/' + uploadedDoc.id + '/data';
+                        });
+                    });
+                });
+
+            camForm.on('variables-fetched', function() {
+                $scope.listaDocumentos = camForm.variableManager.variableValue('listaDocumentos');
+            });
+
+            $scope.upload = function(fileUpload) {
+                for (let i = 0; i < fileUpload.files.length; i++) {
+                  let file = { name: fileUpload.name + "_" + fileUpload.files[i].name, mimetype: fileUpload.files[i].type, data: undefined, blob: undefined };
+                  $scope.files.push(file);
+                  $scope.retrieveFiledata(fileUpload.files[i], file);
+                }
+                $scope.form.$setDirty();
+                $scope.$apply();
+             };
+
+            $scope.retrieveFiledata = function (file, fileData) {
+                let reader = new FileReader();
+                reader.onload = function (event) {
+                    fileData.blob = reader.result;
+                    let binary = '';
+                    let bytes = new Uint8Array(reader.result);
+                    for (let i = 0; i < bytes.length; i++) {
+                        binary += String.fromCharCode(bytes[i]);
+                    }
+                    fileData.data = btoa(binary);
+                };
+                reader.readAsArrayBuffer(file);
+            };
+
+            camForm.on('submit', function() {
+              angular.forEach($scope.listaDocumentos, function(listaDocumentos) {
+                delete listaDocumentos.$$hashKey;
+            });
+
+            $scope.files.forEach(function (file) {
+                camForm.variableManager.createVariable({
+                    name: 'DOCUMENTO_' + file.name,
+                    type: 'File',
+                    value: file.data,
+                    valueInfo: {
+                        "filename": file.name,
+                        "mimetype": file.type
+                    }
+                    });
+                });
+            });
+        }]);
+    </script>
+</form>

@@ -1,0 +1,138 @@
+<form name="form" class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-md-4" for="razaoSocial">Razão Social</label>
+        <div class="controls col-md-8">
+            <input id="razaoSocial"
+                   type="text"
+                   cam-variable-name="razaoSocial"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="cnpj">CNPJ</label>
+        <div class="controls col-md-8">
+            <input id="cnpj" type="text"
+                   cam-variable-name="cnpj"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="email">E-mail</label>
+        <div class="controls col-md-8">
+            <input id="email" type="text"
+                   cam-variable-name="email"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="gestorSolicitante">Nome do Gestor Solicitante</label>
+        <div class="controls col-md-8">
+            <input id="gestorSolicitante" type="text"
+                   cam-variable-name="gestorSolicitante"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="nomeComprador">Nome do Comprador</label>
+        <div class="controls col-md-8">
+            <input id="nomeComprador" type="text"
+                   cam-variable-name="nomeComprador"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="areaDemandante">Área do Demandante</label>
+        <div class="controls col-md-8">
+            <input id="areaDemandante" type="text"
+                   cam-variable-name="areaDemandante"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="origemDemanda">Origem Demanda</label>
+        <div class="controls col-md-8">
+            <input id="origemDemanda" type="text"
+                   cam-variable-name="origemDemanda"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="categoria">Categoria</label>
+        <div class="controls col-md-8">
+            <input id="categoria" type="text"
+                   cam-variable-name="categoria"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="tipoServico">Tipo de Serviço</label>
+        <div class="controls col-md-8">
+            <input id="tipoServico" type="text"
+                   cam-variable-name="tipoServico"
+                   cam-variable-type="String"
+                   disabled
+                   class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">Documentos</label>
+        <div class="controls col-md-8">
+            <ul class="list-group" id="documentos">
+                <li class="list-group-item" ng-repeat="file in files">
+                    <a href="{{file.link}}">{{file.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="score">Score</label>
+        <div class="controls col-md-8">
+            <select id="score"
+                    cam-variable-name="score" cam-variable-type="String"
+                    class="form-control">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+    <script cam-script type="text/form-script">
+        inject(['$http', 'Uri', function($http, Uri) {
+            camForm.on('form-loaded', function() {
+                $http.get(Uri.appUri('engine://engine/:engine/variable-instance?variableNameLike=DOCUMENTO%&processInstanceId='+camForm.processInstanceId))
+                    .then(function(variables) {
+                        $scope.files = variables.data;
+                        $scope.files.forEach(function(file){
+                            file.link = '/engine-rest/variable-instance/' + file.id + '/data';
+                        });
+                    });
+                });
+                camForm.on('form-loaded', function() {});
+                camForm.on('variables-fetched', function() {});
+                camForm.on('submit', function() {
+                    angular.forEach($scope.listaDocumentos, function(listaDocumentos) {
+                        delete listaDocumentos.$$hashKey;
+                    });
+                });
+            }]);
+    </script>
+</form>

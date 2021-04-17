@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Homologação de Fornecedores</title>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+                font-size: 48px;
+            }
+        </style>
+    </head>
+    <body>
+        <p th:text="${'Olá ' + solicitante + ','}"></p>
+
+        <p>
+            Foi criado o processo de homologação <span th:text="${idHomologacao}"></span>.
+
+            Para dar seguimento ao processo, envie este e-mail aos fornecedores desejados. Eles devem fornecer os seguintes documentos:
+
+            <div>
+                <ul th:each="documento : ${listaDocumentos}">
+                    <li th:text="${documento}"></li>
+                </ul>
+            </div>
+
+            Para fornecer os documentos descritos acima, o fornecedor deve acessar o nosso <a href="http://localhost:8080/camunda/app/tasklist/default/#/login">Portal de Fornecedores</a>
+
+        </p>
+        <p>Atenciosamente,</p>
+        <p>Equipe de Homologação de Fornecedores</p>
+    </body>
+</html>

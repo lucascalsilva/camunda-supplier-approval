@@ -1,0 +1,26 @@
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+spring.h2.console.enabled: true
+camunda.bpm:
+  generic-properties:
+    properties:
+      generalResourceWhitelistPattern: "[a-zA-Z0-9-_]+|camunda-admin"
+  filter:
+    create: All Tasks
+  admin-user:
+    id: LUCAS_SILVA
+    password: demo
+    firstName: LUCAS
+    lastName: DA SILVA
+    email: custom.app.tests@gmail.com
+email.from: custom.app.tests@gmail.com
+spring.mail:
+  default-encoding: UTF-8
+  host: smtp.gmail.com
+  username: custom.app.tests@gmail.com
+  password: Uberpruefen123$%!
+  port: 587
+  protocol: smtp
+  test-connection: false
+  properties.mail.smtp:
+    auth: true
+    starttls.enable: true

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_000q8sp" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <decision id="ListaDocumentosDecision" name="Listagem de Documentos">
+    <decisionTable id="DecisionTable_19fsxg6" hitPolicy="FIRST">
+      <input id="Input_1" label="Categoria" camunda:inputVariable="categoria">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>categoria</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0kyvvan">
+          <text>"INFORMAÇÃO","FACILIDADES/UTILIDADES","CONSULTORIA","ASSISTÊNCIA","COMUNICAÇÃO E MARKETING","PERITOS"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_1mgy2h2" label="Tipo de Serviço" camunda:inputVariable="tipoServico">
+        <inputExpression id="LiteralExpression_0in4uw4" typeRef="string">
+          <text>tipoServico</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1t9yhh8">
+          <text>"MOTOBOY","INSPEÇÃO SINISTRO AERO E CASCO","GUINCHO","SERVICOS DE PROPAGANDA E PUBLICIDADE","VISTORIA PRÉVIA AUTO"</text>
+        </inputValues>
+      </input>
+      <output id="Output_1" label="Lista de Documentos" name="listaDocumentos" typeRef="string" biodi:width="489" />
+      <rule id="DecisionRule_0w9lcjd">
+        <inputEntry id="UnaryTests_0sjeg6f">
+          <text>"INFORMAÇÃO"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g4h825">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11em9cj">
+          <text>"RECEITA FEDERAL,CERTIDÃO TRABALHISTA,CERTIDÃO FGTS,CERTIDÃO ESTADUAL,PPE,RISK MONEY,VÍNCULO COM O GRUPO,CONTRATO ESTATUTO SOCIAL,PROCURAÇÃO"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1homfhj">
+        <inputEntry id="UnaryTests_178cvgv">
+          <text>"FACILIDADES/UTILIDADE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1na2i8h">
+          <text>"MOTOBOY"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0symkc2">
+          <text>"RECEITA FEDERAL,CERTIDÃO FEDERAL,CERTIDÃO TRABALHISTA,CERTIDÃO FGTS,CERTIDÃO ESTADUAL,PPE,RISK MONEY"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1c6by8i">
+        <inputEntry id="UnaryTests_0p331fm">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_024wxe2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0asm7pm">
+          <text>"RECEITA FEDERAL,CERTIDÃO FEDERAL,CERTIDÃO TRABALHISTA,CERTIDÃO FGTS,CERTIDÃO ESTADUAL,PPE,RISK MONEY,VÍNCULO COM O GRUPO,CONTRATO ESTATUTO SOCIAL,PROCURAÇÃO"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="ListaDocumentosDecision">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -23,7 +23,7 @@ public class ProcessUtil {
 
     public void cleanFields(DelegateExecution execution, String... fields){
         Arrays.stream(fields).forEach(s -> {
-            execution.setVariable(s, null);
+            execution.setVariable(s, "");
         });
     }
 

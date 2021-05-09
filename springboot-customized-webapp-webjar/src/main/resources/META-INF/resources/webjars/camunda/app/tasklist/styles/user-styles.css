@@ -18,7 +18,7 @@ a:hover, a:focus {
 
 [cam-widget-header] .navbar-brand .brand-logo {
     display: block;
-    background: url(../assets/images/custom-logo.png);
+    background: url(../assets/images/custom-logo.jpg);
     background-repeat: no-repeat;
     background-size: ${CUSTOM_LOGO_BACKGROUND_SIZE};
     background-position: ${CUSTOM_LOGO_BACKGROUND_POSITION};

@@ -93,11 +93,32 @@
     <div class="form-group">
         <label class="control-label col-md-4">Documentos</label>
         <div class="controls col-md-8">
-            <ul class="list-group" id="documentos">
-                <li class="list-group-item" ng-repeat="file in files">
-                    <a href="{{file.link}}">{{file.name}}</a>
-                </li>
-            </ul>
+            <table class="table table-bordered" id="documentos">
+                <thead>
+                <tr>
+                    <td>
+                        <p>Tipo</p>
+                    </td>
+                    <td>
+                        <p>Extração do OCR</p>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="documento in listaDocumentos">
+                    <td>
+                        <p>{{documento.tipo}}</p>
+                    </td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="ocrInformation in documento.ocrInformationList">
+                                <p><span><strong>{{ocrInformation.information}}:</strong></span> {{ocrInformation.value}}</p>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="form-group">
@@ -116,23 +137,20 @@
         </div>
     </div>
     <script cam-script type="text/form-script">
-        inject(['$http', 'Uri', function($http, Uri) {
-            camForm.on('form-loaded', function() {
-                $http.get(Uri.appUri('engine://engine/:engine/variable-instance?variableNameLike=DOCUMENTO%&processInstanceId='+camForm.processInstanceId))
-                    .then(function(variables) {
-                        $scope.files = variables.data;
-                        $scope.files.forEach(function(file){
-                            file.link = '/engine-rest/variable-instance/' + file.id + '/data';
-                        });
-                    });
+        camForm.on('form-loaded', function() {
+            camForm.variableManager.fetchVariable('listaDocumentos');
+        });
+        camForm.on('variables-fetched', function() {
+            $scope.listaDocumentos = camForm.variableManager.variableValue('listaDocumentos');
+        });
+        camForm.on('submit', function() {
+            angular.forEach($scope.listaDocumentos, function(documento) {
+                delete documento.$$hashKey;
+                angular.forEach(documento.ocrInformationList, function(ocrInformation){
+                    delete ocrInformation.$$hashKey;
                 });
-                camForm.on('form-loaded', function() {});
-                camForm.on('variables-fetched', function() {});
-                camForm.on('submit', function() {
-                    angular.forEach($scope.listaDocumentos, function(listaDocumentos) {
-                        delete listaDocumentos.$$hashKey;
-                    });
-                });
-            }]);
+            });
+            console.log(JSON.stringify($scope.listaDocumentos));
+        });
     </script>
 </form>

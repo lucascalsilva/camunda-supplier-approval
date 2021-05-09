@@ -16,12 +16,12 @@ public class AgruparListaDocumentosListener implements ExecutionListener {
 
     @Override
     public void notify(DelegateExecution delegateExecution) throws Exception {
-        List<String> documentos = delegateExecution.getVariables().entrySet().stream()
+        /*List<String> documentos = delegateExecution.getVariables().entrySet().stream()
                 .filter(variable -> variable.getKey().contains("DOCUMENTO"))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
         delegateExecution.setVariable("documentos", Variables.objectValue(documentos)
-                .serializationDataFormat(JSON).create());
+                .serializationDataFormat(JSON).create());*/
     }
 }

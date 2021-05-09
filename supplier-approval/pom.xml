@@ -8,20 +8,19 @@
   <artifactId>supplier-approval</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.4.3</version>
+    <relativePath/>
+  </parent>
+
   <properties>
     <camunda.version>7.15.0</camunda.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.4.3</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
       <dependency>
         <groupId>org.camunda.bpm</groupId>
         <artifactId>camunda-bom</artifactId>
@@ -39,20 +38,25 @@
       <version>${camunda.version}</version>
     </dependency>-->
 
-    <dependency>
-      <groupId>org.camunda.bpm.springboot</groupId>
-      <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
+  <dependency>
+    <groupId>org.camunda.bpm.springboot</groupId>
+    <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
+  </dependency>
+
+  <dependency>
+    <groupId>org.camunda.bpm.springboot</groupId>
+    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+    <!--<exclusions>
+      <exclusion>
+        <groupId>org.camunda.bpm.webapp</groupId>
+        <artifactId>camunda-webapp-webjar</artifactId>
+      </exclusion>
+    </exclusions>-->
     </dependency>
 
     <dependency>
-      <groupId>org.camunda.bpm.springboot</groupId>
-      <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-      <!--<exclusions>
-        <exclusion>
-          <groupId>org.camunda.bpm.webapp</groupId>
-          <artifactId>camunda-webapp-webjar</artifactId>
-        </exclusion>
-      </exclusions>-->
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
     </dependency>
 
     <dependency>
@@ -85,7 +89,6 @@
       <artifactId>thymeleaf-spring5</artifactId>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
     <dependency>
       <groupId>nz.net.ultraq.thymeleaf</groupId>
       <artifactId>thymeleaf-layout-dialect</artifactId>
@@ -107,15 +110,18 @@
       <version>1.6.0</version>
     </dependency>
 
-    <!--<dependency>
-      <groupId>org.graalvm.js</groupId>
-      <artifactId>js</artifactId>
-      <version>21.0.0.2</version>
-    </dependency>-->
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>3.0.8</version>
+      <type>pom</type>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
     </dependency>
+
   </dependencies>
 
   <build>

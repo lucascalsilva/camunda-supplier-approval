@@ -90,31 +90,31 @@
                    class="form-control"/>
         </div>
     </div>
-    <div class="form-group" ng-show="uploadedDocs.length > 0">
-        <label class="control-label col-md-4">Documentos Anexados</label>
-        <div class="controls col-md-8">
-            <ul class="list-group" id="documentosAnexados">
-                <li class="list-group-item" ng-repeat="uploadedDoc in uploadedDocs">
-                    <a href="{{uploadedDoc.link}}">{{uploadedDoc.name}}</a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <div class="form-group">
         <label class="control-label col-md-4">Documentos</label>
         <div class="controls col-md-8">
             <table class="table table-bordered" id="documentos">
+                <thead>
+                    <tr>
+                        <td>
+                            <p>Tipo</p>
+                        </td>
+                        <td>
+                            <p>Arquivo</p>
+                        </td>
+                    </tr>
+                </thead>
                 <tbody>
-                <tr ng-repeat="documento in listaDocumentos">
-                    <td>
-                        <p>{{documento}}</p>
-                    </td>
-                    <td>
-                        <input type="file" name="{{documento}}"
-                               class="form-control" required
-                               onchange="angular.element(this).scope().upload(this)">
-                    </td>
-                </tr>
+                    <tr ng-repeat="documento in listaDocumentos">
+                        <td>
+                            <p>{{documento.tipo}}</p>
+                        </td>
+                        <td>
+                            <input type="file"
+                                   class="form-control"
+                                   onchange="angular.element(this).scope().upload(this, angular.element(this).scope().documento)">
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -153,66 +153,45 @@
         </div>
     </div>
     <script cam-script type="text/form-script">
-        inject(['$http', 'Uri', function($http, Uri) {
-            $scope.files = [];
+        $scope.files = [];
 
-            camForm.on('form-loaded', function() {
-                camForm.variableManager.fetchVariable('listaDocumentos');
-
-                $http.get(Uri.appUri('engine://engine/:engine/variable-instance?variableNameLike=DOCUMENTO%&processInstanceId='+camForm.processInstanceId))
-                    .then(function(variables) {
-                        $scope.uploadedDocs = variables.data;
-                        $scope.uploadedDocs.forEach(function(uploadedDoc){
-                            uploadedDoc.link = '/engine-rest/variable-instance/' + uploadedDoc.id + '/data';
-                        });
-                    });
-                });
-
-            camForm.on('variables-fetched', function() {
-                $scope.listaDocumentos = camForm.variableManager.variableValue('listaDocumentos');
+        camForm.on('form-loaded', function() {
+            camForm.variableManager.fetchVariable('listaDocumentos');
             });
 
-            $scope.upload = function(fileUpload) {
-                for (let i = 0; i < fileUpload.files.length; i++) {
-                  let file = { name: fileUpload.name + "_" + fileUpload.files[i].name, mimetype: fileUpload.files[i].type, data: undefined, blob: undefined };
-                  $scope.files.push(file);
-                  $scope.retrieveFiledata(fileUpload.files[i], file);
+        camForm.on('variables-fetched', function() {
+            $scope.listaDocumentos = camForm.variableManager.variableValue('listaDocumentos');
+        });
+
+        $scope.upload = function(fileUpload, documento) {
+            for (let i = 0; i < fileUpload.files.length; i++) {
+              documento.arquivo = {};
+              documento.arquivo.nomeArquivo = fileUpload.files[i].name;
+              $scope.retrieveFiledata(fileUpload.files[i], documento.arquivo);
+              documento.arquivo.mimeType = fileUpload.files[i].type;
+            }
+            $scope.form.$setDirty();
+            $scope.$apply();
+         };
+
+        $scope.retrieveFiledata = function (file, fileData) {
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                //fileData.blob = reader.result;
+                let binary = '';
+                let bytes = new Uint8Array(reader.result);
+                for (let i = 0; i < bytes.length; i++) {
+                    binary += String.fromCharCode(bytes[i]);
                 }
-                $scope.form.$setDirty();
-                $scope.$apply();
-             };
-
-            $scope.retrieveFiledata = function (file, fileData) {
-                let reader = new FileReader();
-                reader.onload = function (event) {
-                    fileData.blob = reader.result;
-                    let binary = '';
-                    let bytes = new Uint8Array(reader.result);
-                    for (let i = 0; i < bytes.length; i++) {
-                        binary += String.fromCharCode(bytes[i]);
-                    }
-                    fileData.data = btoa(binary);
-                };
-                reader.readAsArrayBuffer(file);
+                fileData.conteudo = btoa(binary);
             };
+            reader.readAsArrayBuffer(file);
+        };
 
-            camForm.on('submit', function() {
-              angular.forEach($scope.listaDocumentos, function(listaDocumentos) {
-                delete listaDocumentos.$$hashKey;
+        camForm.on('submit', function() {
+          angular.forEach($scope.listaDocumentos, function(documento) {
+            delete documento.$$hashKey;
             });
-
-            $scope.files.forEach(function (file) {
-                camForm.variableManager.createVariable({
-                    name: 'DOCUMENTO_' + file.name,
-                    type: 'File',
-                    value: file.data,
-                    valueInfo: {
-                        "filename": file.name,
-                        "mimetype": file.type
-                    }
-                    });
-                });
-            });
-        }]);
+        });
     </script>
 </form>

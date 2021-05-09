@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0" camunda:diagramRelationId="259826ca-5c1d-4647-b754-8870f3951c41">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0" camunda:diagramRelationId="259826ca-5c1d-4647-b754-8870f3951c41">
   <bpmn:process id="HomologacaoFornecedoresProcess" name="Homologação de Fornecedores" isExecutable="true">
     <bpmn:serviceTask id="CadastrarHomologacaoTask" name="Cadastrar homologação" camunda:asyncBefore="true" camunda:delegateExpression="${criarHomologacaoFornecedor}">
       <bpmn:incoming>Flow_1p7fvlf</bpmn:incoming>
       <bpmn:outgoing>Flow_054puic</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_054puic" sourceRef="CadastrarHomologacaoTask" targetRef="CarregarListaDeDocsNecessariosTask" />
-    <bpmn:serviceTask id="EnviarLinkDeAcessoSupplierTask" name="Enviar link de acesso supplier" camunda:asyncBefore="true" camunda:delegateExpression="${enviarLinkAcessoFornecedor}">
-      <bpmn:incoming>Flow_15exncg</bpmn:incoming>
+    <bpmn:serviceTask id="EnviarLinkDeAcessoSupplierTask" name="Enviar link de acesso supplier" camunda:delegateExpression="${enviarLinkAcessoFornecedor}">
       <bpmn:incoming>Flow_1ta4fqy</bpmn:incoming>
       <bpmn:incoming>PrazoPostergadoSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>DevolvidoSequenceFlow</bpmn:incoming>
       <bpmn:outgoing>Flow_10t04ff</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_10t04ff" sourceRef="EnviarLinkDeAcessoSupplierTask" targetRef="Gateway_1npyum7" />
     <bpmn:sequenceFlow id="Flow_19d2hw2" sourceRef="AnexarDocsEInformacoesTask" targetRef="ObterCartaoCNPJTask" />
-    <bpmn:serviceTask id="ConsolidarDocsParaRelatorioTask" name="Consolidar docs para relatório" camunda:asyncBefore="true" camunda:delegateExpression="${consolidarDocsRelatorio}">
-      <bpmn:incoming>Flow_1xycjh3</bpmn:incoming>
+    <bpmn:serviceTask id="ConsolidarDocsParaRelatorioTask" name="Consolidar docs para relatório" camunda:delegateExpression="${consolidarDocsRelatorio}">
+      <bpmn:incoming>Flow_0f6xpey</bpmn:incoming>
       <bpmn:outgoing>Flow_0ipmq49</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0ipmq49" sourceRef="ConsolidarDocsParaRelatorioTask" targetRef="BuscarAlcadasDeAprovacaoTask" />
@@ -36,19 +36,13 @@
       <bpmn:outgoing>AprovadoSequenceFlow</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0et5sex" sourceRef="ValidarAsInformacoesEEmitirParecerTask" targetRef="Gateway_0gr67aj" />
-    <bpmn:exclusiveGateway id="Gateway_0gil73k">
-      <bpmn:incoming>Flow_07q6zhi</bpmn:incoming>
-      <bpmn:incoming>DevolvidoSequenceFlow</bpmn:incoming>
-      <bpmn:outgoing>Flow_15exncg</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_15exncg" sourceRef="Gateway_0gil73k" targetRef="EnviarLinkDeAcessoSupplierTask" />
-    <bpmn:sequenceFlow id="DevolvidoSequenceFlow" name="Devolvido" sourceRef="Gateway_0gr67aj" targetRef="Gateway_0gil73k">
+    <bpmn:sequenceFlow id="DevolvidoSequenceFlow" name="Devolvido" sourceRef="Gateway_0gr67aj" targetRef="EnviarLinkDeAcessoSupplierTask">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${parecer == 'DEVOLVIDO'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="DeclinadoSequenceFlow" name="Declinado" sourceRef="Gateway_0gr67aj" targetRef="CompensacaoDisparadaEvent">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${parecer == 'DECLINADO'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="ArquivarDocsNoFileManagerTask" name="Arquivar docs no File Manager" camunda:asyncBefore="true" camunda:delegateExpression="${arquivarDocsFileManager}">
+    <bpmn:serviceTask id="ArquivarDocsNoFileManagerTask" name="Arquivar docs no File Manager" camunda:delegateExpression="${arquivarDocsFileManager}">
       <bpmn:incoming>Flow_1xt48nz</bpmn:incoming>
       <bpmn:outgoing>Flow_0hl33zs</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -63,7 +57,7 @@
     <bpmn:boundaryEvent id="PrazoBoundaryEvent" name="Prazo" attachedToRef="AnexarDocsEInformacoesTask">
       <bpmn:outgoing>Flow_1e40pz7</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_169e55b">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT6M</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:exclusiveGateway id="Gateway_1h7g7dy" default="ReprovadoSequenceFlow">
@@ -108,33 +102,13 @@
     <bpmn:sequenceFlow id="Flow_1ta4fqy" sourceRef="CarregarListaDeDocsNecessariosTask" targetRef="EnviarLinkDeAcessoSupplierTask" />
     <bpmn:businessRuleTask id="CarregarListaDeDocsNecessariosTask" name="Carregar lista de docs necessários" camunda:asyncBefore="true" camunda:resultVariable="listaDocumentos" camunda:decisionRef="ListaDocumentosDecision" camunda:mapDecisionResult="singleEntry">
       <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="listaDocumentos">${processUtil.listFromCommaSeparatedStr(listaDocumentos)}</camunda:outputParameter>
-        </camunda:inputOutput>
+        <camunda:executionListener delegateExpression="${gerarListaDocumentos}" event="end" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_054puic</bpmn:incoming>
       <bpmn:outgoing>Flow_1ta4fqy</bpmn:outgoing>
     </bpmn:businessRuleTask>
-    <bpmn:callActivity id="ProcessamentoDeDocumentosCallActivity" name="Processamento de documentos" calledElement="ProcessarDocumentoProcess">
-      <bpmn:extensionElements>
-        <camunda:in businessKey="#{execution.processBusinessKey}" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1qf8fpw</bpmn:incoming>
-      <bpmn:outgoing>Flow_1xycjh3</bpmn:outgoing>
-      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="${documentos}" camunda:elementVariable="documento" />
-    </bpmn:callActivity>
-    <bpmn:boundaryEvent id="CorrecaoSolicitadaBoundaryEvent" name="Correção solicitada" attachedToRef="ProcessamentoDeDocumentosCallActivity">
-      <bpmn:outgoing>Flow_07q6zhi</bpmn:outgoing>
-      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1h1y1us" escalationRef="Escalation_062ztxx" />
-    </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1qf8fpw" sourceRef="ObterCartaoCNPJTask" targetRef="ProcessamentoDeDocumentosCallActivity" />
-    <bpmn:sequenceFlow id="Flow_1xycjh3" sourceRef="ProcessamentoDeDocumentosCallActivity" targetRef="ConsolidarDocsParaRelatorioTask" />
-    <bpmn:sequenceFlow id="Flow_07q6zhi" sourceRef="CorrecaoSolicitadaBoundaryEvent" targetRef="Gateway_0gil73k" />
-    <bpmn:boundaryEvent id="DocReprovadoBoundaryEvent" name="Doc&#10;Reprovado" attachedToRef="ProcessamentoDeDocumentosCallActivity">
-      <bpmn:outgoing>Flow_0e61bkw</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_1j456ey" errorRef="Error_0ittsav" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
-    </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_0e61bkw" sourceRef="DocReprovadoBoundaryEvent" targetRef="HomologacaoCanceladaAutomaticamenteEndEvent" />
+    <bpmn:sequenceFlow id="Flow_1xycjh3" sourceRef="ProcessamentoDeDocumentosCallActivity" targetRef="Gateway_15ovpqb" />
     <bpmn:boundaryEvent id="CNPJInativoBoundaryEvent" name="CNPJ&#10;Inativo" attachedToRef="ObterCartaoCNPJTask">
       <bpmn:outgoing>Flow_1lm7z6d</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_18p8ou9" errorRef="Error_0ie8fm8" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
@@ -154,7 +128,6 @@
           <camunda:inputParameter name="parecer">"CANCELADO"</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0e61bkw</bpmn:incoming>
       <bpmn:incoming>Flow_1lm7z6d</bpmn:incoming>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1if63ep" camunda:delegateExpression="${notificarFornecedor}" />
     </bpmn:endEvent>
@@ -168,7 +141,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="AprovadoSequenceFlow" name="Aprovado" sourceRef="Gateway_0gr67aj" targetRef="GerarScoreDeFornecedorTask" />
     <bpmn:sequenceFlow id="Flow_09t42tj" sourceRef="BuscarAlcadasDeAprovacaoTask" targetRef="ValidarAsInformacoesEEmitirParecerTask" />
-    <bpmn:businessRuleTask id="BuscarAlcadasDeAprovacaoTask" name="Buscar aprovadores" camunda:asyncBefore="true" camunda:resultVariable="aprovadores" camunda:decisionRef="DefinirAprovadores" camunda:mapDecisionResult="singleEntry">
+    <bpmn:businessRuleTask id="BuscarAlcadasDeAprovacaoTask" name="Buscar aprovadores" camunda:resultVariable="aprovadores" camunda:decisionRef="DefinirAprovadores" camunda:mapDecisionResult="singleEntry">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="aprovadores">${processUtil.listFromCommaSeparatedStr(aprovadores)}</camunda:outputParameter>
@@ -185,6 +158,7 @@
     </bpmn:startEvent>
     <bpmn:userTask id="GerarScoreDeFornecedorTask" name="Gerar score de fornecedor" camunda:formKey="embedded:app:forms/gerar-score.html" camunda:dueDate="PT30M" camunda:followUpDate="PT15M">
       <bpmn:incoming>AprovadoSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_1eivcdy</bpmn:incoming>
       <bpmn:outgoing>Flow_1xt48nz</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1xt48nz" sourceRef="GerarScoreDeFornecedorTask" targetRef="ArquivarDocsNoFileManagerTask" />
@@ -204,6 +178,22 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable("cnpj")}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1e40pz7" sourceRef="PrazoBoundaryEvent" targetRef="AvaliarSupplierTask" />
+    <bpmn:serviceTask id="ProcessamentoDeDocumentosCallActivity" name="Processamento de documentos" camunda:delegateExpression="${processarDocumento}">
+      <bpmn:incoming>Flow_1qf8fpw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xycjh3</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="${listaDocumentos}" camunda:elementVariable="documento" />
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_15ovpqb" name="Documentos processados estão em situação válida?" default="Flow_1eivcdy">
+      <bpmn:incoming>Flow_1xycjh3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f6xpey</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1eivcdy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0f6xpey" name="Não" sourceRef="Gateway_15ovpqb" targetRef="ConsolidarDocsParaRelatorioTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">listaDocumentos.any{it.tipo.toUpperCase() == "CNDTRABALHISTAS" &amp;&amp; it.ocrInformationList != null &amp;&amp; it.ocrInformationList.any{it.information.toUpperCase() == "STATUS" &amp;&amp; it.value.toUpperCase() != "NÃO CONSTA"}} ||
+listaDocumentos.any{it.tipo.toUpperCase() == "CNDFGTS" &amp;&amp; it.ocrInformationList != null &amp;&amp; it.ocrInformationList.any{it.information.toUpperCase() == "STATUS" &amp;&amp; it.value.toUpperCase() != "REGULAR"}} ||
+listaDocumentos.any{it.tipo.toUpperCase() == "CNDReceitaFederal" &amp;&amp; it.ocrInformationList != null &amp;&amp; it.ocrInformationList.any{it.information.toUpperCase() == "STATUS" &amp;&amp; it.value.toUpperCase() != "NÃO CONSTAM PENDÊNCIAS"}}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1eivcdy" name="Sim" sourceRef="Gateway_15ovpqb" targetRef="GerarScoreDeFornecedorTask" />
     <bpmn:textAnnotation id="TextAnnotation_0o02p5o">
       <bpmn:text>APIs de ambientes públicos e privados</bpmn:text>
     </bpmn:textAnnotation>
@@ -216,6 +206,22 @@
   <bpmn:message id="Message_1828a81" name="HomologacaoIniciadaMessage" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="HomologacaoFornecedoresProcess">
+      <bpmndi:BPMNEdge id="Flow_1eivcdy_di" bpmnElement="Flow_1eivcdy">
+        <di:waypoint x="1370" y="263" />
+        <di:waypoint x="1370" y="200" />
+        <di:waypoint x="2050" y="200" />
+        <di:waypoint x="2050" y="248" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1700" y="182" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f6xpey_di" bpmnElement="Flow_0f6xpey">
+        <di:waypoint x="1395" y="288" />
+        <di:waypoint x="1450" y="288" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1412" y="270" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1e40pz7_di" bpmnElement="Flow_1e40pz7">
         <di:waypoint x="930" y="346" />
         <di:waypoint x="930" y="660" />
@@ -246,48 +252,40 @@
         <di:waypoint x="240" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1xt48nz_di" bpmnElement="Flow_1xt48nz">
-        <di:waypoint x="1980" y="288" />
-        <di:waypoint x="2010" y="288" />
+        <di:waypoint x="2100" y="288" />
+        <di:waypoint x="2130" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_09t42tj_di" bpmnElement="Flow_09t42tj">
-        <di:waypoint x="1561" y="288" />
-        <di:waypoint x="1590" y="288" />
+        <di:waypoint x="1681" y="288" />
+        <di:waypoint x="1710" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0a5u6lt_di" bpmnElement="AprovadoSequenceFlow">
-        <di:waypoint x="1785" y="288" />
-        <di:waypoint x="1880" y="288" />
+        <di:waypoint x="1905" y="288" />
+        <di:waypoint x="2000" y="288" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1806" y="270" width="48" height="14" />
+          <dc:Bounds x="1927" y="270" width="47" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1lm7z6d_di" bpmnElement="Flow_1lm7z6d">
         <di:waypoint x="1070" y="346" />
-        <di:waypoint x="1070" y="430" />
-        <di:waypoint x="1252" y="430" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0e61bkw_di" bpmnElement="Flow_0e61bkw">
-        <di:waypoint x="1270" y="346" />
-        <di:waypoint x="1270" y="412" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_07q6zhi_di" bpmnElement="Flow_07q6zhi">
-        <di:waypoint x="1220" y="230" />
-        <di:waypoint x="1220" y="135" />
+        <di:waypoint x="1070" y="510" />
+        <di:waypoint x="1282" y="510" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1xycjh3_di" bpmnElement="Flow_1xycjh3">
-        <di:waypoint x="1290" y="288" />
-        <di:waypoint x="1330" y="288" />
+        <di:waypoint x="1300" y="288" />
+        <di:waypoint x="1345" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1qf8fpw_di" bpmnElement="Flow_1qf8fpw">
         <di:waypoint x="1150" y="288" />
-        <di:waypoint x="1190" y="288" />
+        <di:waypoint x="1200" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ta4fqy_di" bpmnElement="Flow_1ta4fqy">
         <di:waypoint x="480" y="288" />
         <di:waypoint x="510" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_037023e_di" bpmnElement="Flow_037023e">
-        <di:waypoint x="1948" y="440" />
-        <di:waypoint x="2172" y="440" />
+        <di:waypoint x="2068" y="440" />
+        <di:waypoint x="2292" y="440" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_17nqmgp_di" bpmnElement="PrazoPostergadoSequenceFlow">
         <di:waypoint x="1160" y="685" />
@@ -295,14 +293,14 @@
         <di:waypoint x="560" y="760" />
         <di:waypoint x="560" y="328" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1051" y="833" width="87" height="14" />
+          <dc:Bounds x="1051" y="833" width="88" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_03u9cgs_di" bpmnElement="ReprovadoSequenceFlow">
         <di:waypoint x="1185" y="660" />
-        <di:waypoint x="1272" y="660" />
+        <di:waypoint x="1282" y="660" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1181" y="642" width="53" height="14" />
+          <dc:Bounds x="1213" y="642" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1csjkjd_di" bpmnElement="Flow_1csjkjd">
@@ -314,37 +312,33 @@
         <di:waypoint x="990" y="412" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0hl33zs_di" bpmnElement="Flow_0hl33zs">
-        <di:waypoint x="2110" y="288" />
-        <di:waypoint x="2172" y="288" />
+        <di:waypoint x="2230" y="288" />
+        <di:waypoint x="2292" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_013y0d3_di" bpmnElement="DeclinadoSequenceFlow">
-        <di:waypoint x="1760" y="313" />
-        <di:waypoint x="1760" y="440" />
-        <di:waypoint x="1912" y="440" />
+        <di:waypoint x="1880" y="313" />
+        <di:waypoint x="1880" y="440" />
+        <di:waypoint x="2032" y="440" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1766" y="333" width="49" height="14" />
+          <dc:Bounds x="1886" y="333" width="50" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0v8bu81_di" bpmnElement="DevolvidoSequenceFlow">
-        <di:waypoint x="1760" y="263" />
-        <di:waypoint x="1760" y="110" />
-        <di:waypoint x="1245" y="110" />
+        <di:waypoint x="1880" y="263" />
+        <di:waypoint x="1880" y="120" />
+        <di:waypoint x="560" y="120" />
+        <di:waypoint x="560" y="248" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1766" y="233" width="49" height="14" />
+          <dc:Bounds x="1630" y="143" width="49" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_15exncg_di" bpmnElement="Flow_15exncg">
-        <di:waypoint x="1195" y="110" />
-        <di:waypoint x="560" y="110" />
-        <di:waypoint x="560" y="248" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0et5sex_di" bpmnElement="Flow_0et5sex">
-        <di:waypoint x="1690" y="288" />
-        <di:waypoint x="1735" y="288" />
+        <di:waypoint x="1810" y="288" />
+        <di:waypoint x="1855" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ipmq49_di" bpmnElement="Flow_0ipmq49">
-        <di:waypoint x="1430" y="288" />
-        <di:waypoint x="1461" y="288" />
+        <di:waypoint x="1550" y="288" />
+        <di:waypoint x="1581" y="288" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19d2hw2_di" bpmnElement="Flow_19d2hw2">
         <di:waypoint x="1010" y="288" />
@@ -365,19 +359,16 @@
         <dc:Bounds x="510" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_09hu1os_di" bpmnElement="ConsolidarDocsParaRelatorioTask">
-        <dc:Bounds x="1330" y="248" width="100" height="80" />
+        <dc:Bounds x="1450" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0ozby2z_di" bpmnElement="ValidarAsInformacoesEEmitirParecerTask">
-        <dc:Bounds x="1590" y="248" width="100" height="80" />
+        <dc:Bounds x="1710" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0gr67aj_di" bpmnElement="Gateway_0gr67aj" isMarkerVisible="true">
-        <dc:Bounds x="1735" y="263" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0gil73k_di" bpmnElement="Gateway_0gil73k" isMarkerVisible="true">
-        <dc:Bounds x="1195" y="85" width="50" height="50" />
+        <dc:Bounds x="1855" y="263" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0dypx6e_di" bpmnElement="ArquivarDocsNoFileManagerTask">
-        <dc:Bounds x="2010" y="248" width="100" height="80" />
+        <dc:Bounds x="2130" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1h7g7dy_di" bpmnElement="Gateway_1h7g7dy" isMarkerVisible="true">
         <dc:Bounds x="1135" y="635" width="50" height="50" />
@@ -389,13 +380,13 @@
         <dc:Bounds x="1050" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_04fgqvq_di" bpmnElement="CompensacaoDisparadaEvent">
-        <dc:Bounds x="1912" y="422" width="36" height="36" />
+        <dc:Bounds x="2032" y="422" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1895" y="465" width="71" height="27" />
+          <dc:Bounds x="2015" y="465" width="72" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1gsw4bd_di" bpmnElement="RetirarDocsDoRelatorioTask">
-        <dc:Bounds x="1330" y="390" width="100" height="80" />
+        <dc:Bounds x="1450" y="390" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1122jjd_di" bpmnElement="AnexarDocsEInformacoesTask">
         <dc:Bounds x="910" y="248" width="100" height="80" />
@@ -403,13 +394,10 @@
       <bpmndi:BPMNShape id="Activity_0sm8p2n_di" bpmnElement="CarregarListaDeDocsNecessariosTask">
         <dc:Bounds x="380" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1rpy335_di" bpmnElement="ProcessamentoDeDocumentosCallActivity">
-        <dc:Bounds x="1190" y="248" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0t25u9a_di" bpmnElement="HomologacaoCanceladaPeloAnalistaEndEvent">
-        <dc:Bounds x="1272" y="642" width="36" height="36" />
+        <dc:Bounds x="1282" y="642" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1253" y="685" width="75" height="40" />
+          <dc:Bounds x="1263" y="685" width="75" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1iulimt_di" bpmnElement="FollowupRealizadoEndEvent">
@@ -419,25 +407,25 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0o7xtzb_di" bpmnElement="HomologacaoCanceladaAutomaticamenteEndEvent">
-        <dc:Bounds x="1252" y="412" width="36" height="36" />
+        <dc:Bounds x="1282" y="492" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1228" y="455" width="85" height="40" />
+          <dc:Bounds x="1258" y="535" width="85" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1wkq1jr_di" bpmnElement="HomologacaoDeclinadaEndEvent">
-        <dc:Bounds x="2172" y="422" width="36" height="36" />
+        <dc:Bounds x="2292" y="422" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2156" y="465" width="68" height="27" />
+          <dc:Bounds x="2276" y="465" width="69" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_17pqnah_di" bpmnElement="HomologacaoConcluidaEndEvent">
-        <dc:Bounds x="2172" y="270" width="36" height="36" />
+        <dc:Bounds x="2292" y="270" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2156" y="313" width="68" height="27" />
+          <dc:Bounds x="2276" y="313" width="69" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0qlb9yu_di" bpmnElement="BuscarAlcadasDeAprovacaoTask">
-        <dc:Bounds x="1461" y="248" width="100" height="80" />
+        <dc:Bounds x="1581" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0csq8j0_di" bpmnElement="HomologacaoIniciadaStartEvent">
         <dc:Bounds x="150" y="270" width="36" height="36" />
@@ -446,7 +434,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0tywt9g_di" bpmnElement="GerarScoreDeFornecedorTask">
-        <dc:Bounds x="1880" y="248" width="100" height="80" />
+        <dc:Bounds x="2000" y="248" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1b35s7n_di" bpmnElement="InformarDadosFornecedorTask">
         <dc:Bounds x="770" y="248" width="100" height="80" />
@@ -455,6 +443,15 @@
         <dc:Bounds x="655" y="263" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="640" y="320" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jx1v05_di" bpmnElement="ProcessamentoDeDocumentosCallActivity">
+        <dc:Bounds x="1200" y="248" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_15ovpqb_di" bpmnElement="Gateway_15ovpqb" isMarkerVisible="true">
+        <dc:Bounds x="1345" y="263" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1325" y="320" width="90" height="53" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0o02p5o_di" bpmnElement="TextAnnotation_0o02p5o">
@@ -466,22 +463,10 @@
           <dc:Bounds x="1076" y="349" width="33" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1i4szbl_di" bpmnElement="DocReprovadoBoundaryEvent">
-        <dc:Bounds x="1252" y="310" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1273" y="336" width="54" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_161jyue_di" bpmnElement="CorrecaoSolicitadaBoundaryEvent">
-        <dc:Bounds x="1202" y="230" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1227" y="200" width="46" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_09mcb2b_di" bpmnElement="CompensacaoCapturadaBoundaryEvent">
-        <dc:Bounds x="1332" y="310" width="36" height="36" />
+        <dc:Bounds x="1452" y="310" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1369" y="334" width="71" height="27" />
+          <dc:Bounds x="1489" y="334" width="72" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0kvx0jk_di" bpmnElement="PrazoBoundaryEvent">
@@ -501,8 +486,8 @@
         <di:waypoint x="1100" y="218" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0ltd59h_di" bpmnElement="Association_0ltd59h">
-        <di:waypoint x="1350" y="346" />
-        <di:waypoint x="1350" y="390" />
+        <di:waypoint x="1470" y="346" />
+        <di:waypoint x="1470" y="390" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

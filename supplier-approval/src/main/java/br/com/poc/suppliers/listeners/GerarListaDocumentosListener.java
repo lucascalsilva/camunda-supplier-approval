@@ -1,5 +1,6 @@
 package br.com.poc.suppliers.listeners;
 
+import br.com.poc.suppliers.model.Documento;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.variable.Variables;
@@ -18,7 +19,8 @@ public class GerarListaDocumentosListener implements ExecutionListener {
     public void notify(DelegateExecution delegateExecution) throws Exception {
         String listaDocumentosStr = (String) delegateExecution.getVariable("listaDocumentos");
 
-        List<String> listaDocumentos = Arrays.stream(listaDocumentosStr.split(",")).map(String::new).collect(Collectors.toList());
+        List<Documento> listaDocumentos = Arrays.stream(listaDocumentosStr.split(","))
+                .map(s -> Documento.builder().tipo(s).build()).collect(Collectors.toList());
 
         delegateExecution.setVariable("listaDocumentos", Variables.objectValue(listaDocumentos)
                 .serializationDataFormat(JSON).create());

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_000q8sp" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_000q8sp" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.7.0">
   <decision id="ListaDocumentosDecision" name="Listagem de Documentos">
     <decisionTable id="DecisionTable_19fsxg6" hitPolicy="FIRST">
       <input id="Input_1" label="Categoria" camunda:inputVariable="categoria">
@@ -27,7 +27,7 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_11em9cj">
-          <text>"RECEITA FEDERAL,CERTIDÃO TRABALHISTA,CERTIDÃO FGTS,CERTIDÃO ESTADUAL,PPE,RISK MONEY,VÍNCULO COM O GRUPO,CONTRATO ESTATUTO SOCIAL,PROCURAÇÃO"</text>
+          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTAS,CNDReceitaFederal,AcoesTrabalhistas"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1homfhj">
@@ -38,7 +38,7 @@
           <text>"MOTOBOY"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0symkc2">
-          <text>"RECEITA FEDERAL,CERTIDÃO FEDERAL,CERTIDÃO TRABALHISTA,CERTIDÃO FGTS,CERTIDÃO ESTADUAL,PPE,RISK MONEY"</text>
+          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTAS,CNDReceitaFederal,AcoesTrabalhistas"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1c6by8i">
@@ -49,7 +49,7 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0asm7pm">
-          <text>"RECEITA FEDERAL,CERTIDÃO FEDERAL,CERTIDÃO TRABALHISTA,CERTIDÃO FGTS,CERTIDÃO ESTADUAL,PPE,RISK MONEY,VÍNCULO COM O GRUPO,CONTRATO ESTATUTO SOCIAL,PROCURAÇÃO"</text>
+          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTAS,CNDReceitaFederal,AcoesTrabalhistas"</text>
         </outputEntry>
       </rule>
     </decisionTable>

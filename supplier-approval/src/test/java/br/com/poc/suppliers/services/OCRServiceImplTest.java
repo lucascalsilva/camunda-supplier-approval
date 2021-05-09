@@ -3,17 +3,14 @@ package br.com.poc.suppliers.services;
 import br.com.poc.suppliers.model.OCRFile;
 import br.com.poc.suppliers.model.OCRRequest;
 import br.com.poc.suppliers.model.OCRResult;
+import connectjar.org.apache.commons.codec.binary.Base64;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,12 +22,11 @@ import java.util.Arrays;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Slf4j
 class OCRServiceImplTest {
 
     @Autowired
     OCRService ocrService;
-
-    Logger log = LoggerFactory.getLogger(OCRServiceImplTest.class);
 
     @Test
     void testProcessDocument() throws IOException, URISyntaxException {

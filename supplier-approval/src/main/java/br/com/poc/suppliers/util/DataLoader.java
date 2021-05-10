@@ -9,9 +9,15 @@ import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.impl.persistence.entity.GroupEntity;
 import org.camunda.bpm.engine.impl.persistence.entity.UserEntity;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Optional;
@@ -23,18 +29,19 @@ public class DataLoader implements CommandLineRunner {
 
     private final IdentityService identityService;
     private final ObjectMapper mapper;
+    private final ResourceLoader resourceLoader;
 
     @Override
     public void run(String... args) throws Exception {
-        if(identityService.createUserQuery().count() == 1) {
+        if (identityService.createUserQuery().count() == 1) {
             Group fornecedoresGroup = new GroupEntity();
             fornecedoresGroup.setId("fornecedores");
             fornecedoresGroup.setName("Fornecedores");
 
             identityService.saveGroup(fornecedoresGroup);
 
-            File usersFile = loadFile("users-fornecedores.json");
-            User[] users = mapper.readValue(usersFile, UserEntity[].class);
+            InputStream fileStream = loadFile("users-fornecedores.json");
+            User[] users = mapper.readValue(fileStream, UserEntity[].class);
 
             Arrays.stream(users).forEach(user -> {
                 identityService.saveUser(user);
@@ -43,17 +50,9 @@ public class DataLoader implements CommandLineRunner {
         }
     }
 
-    private File loadFile(String fileName){
-        URL fileUrl = Thread.currentThread().getContextClassLoader().getResource("bootstrap" + "/" + fileName);
-
-        if (fileUrl != null) {
-            Optional<File> file = Optional.of(new File(fileUrl.getPath()));
-
-            return file.orElseThrow(() -> new RuntimeException("File with file name "+ fileName + " not found."));
-
-        } else {
-            log.warn("Bootstrap folder not found...");
-            throw new RuntimeException("File url not found for file name "+fileName);
-        }
+    private InputStream loadFile(String fileName) throws IOException {
+        //Optional<File> file = Optional.of(new File(getClass().getResource("bootstrap" + "/" + fileName).getFile()));
+        Resource resource = resourceLoader.getResource("classpath:bootstrap" + "/" + fileName);
+        return resource.getInputStream();
     }
 }

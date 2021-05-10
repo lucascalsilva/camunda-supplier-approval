@@ -23,13 +23,12 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install
-      working-directory: ./supplier-approval
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
         name: java-app
-        path: '${{ github.workspace }}/supplier-approval/target/*.jar'
+        path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,5 +49,5 @@ jobs:
       with:
         app-name: 'datta-supplier-approval'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_98adff0784e44e0b9c3ef19f0494822a }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_59d00802c8b847079f5d0cf80970c817 }}
         package: '*.jar'

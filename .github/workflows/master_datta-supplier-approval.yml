@@ -23,13 +23,13 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install
-      working-directory: ./camunda-supplier-approval
+      working-directory: ./supplier-approval
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
         name: java-app
-        path: '${{ github.workspace }}/target/*.jar'
+        path: '${{ github.workspace }}/supplier-approval/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest

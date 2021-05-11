@@ -1,6 +1,6 @@
 export default {
     app: {
-      name: 'Cockpit',
+      name: 'Welcome',
       vendor: 'Datta'
     }
 };

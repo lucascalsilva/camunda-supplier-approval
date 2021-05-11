@@ -27,12 +27,15 @@
 
 		<!-- make sure that exists in https://github.com/camunda/camunda-webapp-translations -->
 		<CUSTOM_LANG>en</CUSTOM_LANG>
-		
-		<CUSTOM_TASKLIST_TITLE>Datta</CUSTOM_TASKLIST_TITLE>
 
-		<CUSTOM_COLOR_LINES>#00aa47</CUSTOM_COLOR_LINES>
-		<CUSTOM_COLOR_LINKS>#00aa47</CUSTOM_COLOR_LINKS>
-		<CUSTOM_COLOR_TEXT>#00aa47</CUSTOM_COLOR_TEXT>
+		<CUSTOM_VENDOR_NAME>Datta</CUSTOM_VENDOR_NAME>
+		<CUSTOM_TASKLIST_TITLE>TaskList</CUSTOM_TASKLIST_TITLE>
+		<CUSTOM_ADMIN_TITLE>Admin</CUSTOM_ADMIN_TITLE>
+		<CUSTOM_COCKPIT_TITLE>Cockpit</CUSTOM_COCKPIT_TITLE>
+
+		<CUSTOM_COLOR_LINES>#0b351d</CUSTOM_COLOR_LINES>
+		<CUSTOM_COLOR_LINKS>#0b351d</CUSTOM_COLOR_LINKS>
+		<CUSTOM_COLOR_TEXT>#0b351d</CUSTOM_COLOR_TEXT>
 
 		<CUSTOM_LOGO_BACKGROUND_SIZE>30px</CUSTOM_LOGO_BACKGROUND_SIZE>
 		<CUSTOM_LOGO_BACKGROUND_POSITION>0 6px</CUSTOM_LOGO_BACKGROUND_POSITION>
@@ -201,6 +204,22 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.build.outputDirectory}/META-INF/resources/webjars/camunda/app/admin/assets/images</outputDirectory>
+							<resources>
+								<resource>
+									<directory>artwork</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>images-welcome</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}/META-INF/resources/webjars/camunda/app/welcome/assets/images</outputDirectory>
 							<resources>
 								<resource>
 									<directory>artwork</directory>

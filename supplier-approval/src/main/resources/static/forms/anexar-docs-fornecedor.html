@@ -157,7 +157,7 @@
 
         camForm.on('form-loaded', function() {
             camForm.variableManager.fetchVariable('listaDocumentos');
-            });
+        });
 
         camForm.on('variables-fetched', function() {
             $scope.listaDocumentos = camForm.variableManager.variableValue('listaDocumentos');
@@ -165,10 +165,10 @@
 
         $scope.upload = function(fileUpload, documento) {
             for (let i = 0; i < fileUpload.files.length; i++) {
-              documento.arquivo = {};
-              documento.arquivo.nomeArquivo = fileUpload.files[i].name;
-              $scope.retrieveFiledata(fileUpload.files[i], documento.arquivo);
-              documento.arquivo.mimeType = fileUpload.files[i].type;
+                let file = { name: fileUpload.files[i].name, mimetype: fileUpload.files[i].type, data: undefined, blob: undefined };
+                documento.nomeArquivo = fileUpload.files[i].name;
+                $scope.files.push(file);
+                $scope.retrieveFiledata(fileUpload.files[i], file);
             }
             $scope.form.$setDirty();
             $scope.$apply();
@@ -177,21 +177,33 @@
         $scope.retrieveFiledata = function (file, fileData) {
             let reader = new FileReader();
             reader.onload = function (event) {
-                //fileData.blob = reader.result;
+                fileData.blob = reader.result;
                 let binary = '';
                 let bytes = new Uint8Array(reader.result);
                 for (let i = 0; i < bytes.length; i++) {
                     binary += String.fromCharCode(bytes[i]);
                 }
-                fileData.conteudo = btoa(binary);
+                fileData.data = btoa(binary);
             };
             reader.readAsArrayBuffer(file);
         };
 
         camForm.on('submit', function() {
-          angular.forEach($scope.listaDocumentos, function(documento) {
-            delete documento.$$hashKey;
+            angular.forEach($scope.listaDocumentos, function(documento) {
+                delete documento.$$hashKey;
             });
+
+            $scope.files.forEach(function (file) {
+                camForm.variableManager.createVariable({
+                    name: file.name,
+                    type: 'File',
+                    value: file.data,
+                    valueInfo: {
+                        "filename": file.name,
+                        "mimetype": file.type
+                    }
+                    });
+                });
         });
     </script>
 </form>

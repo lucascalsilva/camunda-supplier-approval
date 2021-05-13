@@ -181,7 +181,7 @@
     <bpmn:serviceTask id="ProcessamentoDeDocumentosCallActivity" name="Processamento de documentos" camunda:delegateExpression="${processarDocumento}">
       <bpmn:incoming>Flow_1qf8fpw</bpmn:incoming>
       <bpmn:outgoing>Flow_1xycjh3</bpmn:outgoing>
-      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="${listaDocumentos}" camunda:elementVariable="documento" />
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="${listaDocumentos}" camunda:elementVariable="documento" />
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="Gateway_15ovpqb" name="Documentos processados estão em situação válida?" default="Flow_1eivcdy">
       <bpmn:incoming>Flow_1xycjh3</bpmn:incoming>

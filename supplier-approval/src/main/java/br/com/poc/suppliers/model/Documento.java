@@ -13,8 +13,9 @@ public class Documento {
 
     @EqualsAndHashCode.Include
     private String tipo;
-    private Arquivo arquivo;
+    private String nomeArquivo;
     private List<OCRInformation> ocrInformationList;
+    private String status;
 
 
 

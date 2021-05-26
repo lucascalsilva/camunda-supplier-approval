@@ -36,7 +36,7 @@ public class ProcessarDocumentoDelegate implements JavaDelegate {
         FileValue arquivo = delegateExecution.getVariableTyped(documento.getNomeArquivo());
 
         if(arquivo != null) {
-            String documentId = UUID.randomUUID().toString();
+            String documentId = (String) delegateExecution.getVariable("cnpj");
             String businessName = "Empresa S/A Camunda I";
             String email = "lucasc.alm.silva@gmail.com";
             String name = "Camunda Pessoa II";

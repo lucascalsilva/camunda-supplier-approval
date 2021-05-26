@@ -24,6 +24,6 @@ spring.mail:
   properties.mail.smtp:
     auth: true
     starttls.enable: true
-logging.level:
-  org.apache.http: DEBUG
-  httpclient.wire: DEBUG
+#logging.level:
+  #org.apache.http: DEBUG
+  #httpclient.wire: DEBUG

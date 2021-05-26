@@ -189,7 +189,7 @@
       <bpmn:outgoing>Flow_1eivcdy</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0f6xpey" name="Não" sourceRef="Gateway_15ovpqb" targetRef="ConsolidarDocsParaRelatorioTask">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">listaDocumentos.any{it.tipo.toUpperCase() == "CNDTRABALHISTAS" &amp;&amp; it.ocrInformationList != null &amp;&amp; it.ocrInformationList.any{it.information.toUpperCase() == "STATUS" &amp;&amp; it.value.toUpperCase() != "NÃO CONSTA"}} ||
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">listaDocumentos.any{it.tipo.toUpperCase() == "CNDTRABALHISTAS" &amp;&amp; it.ocrInformationList != null &amp;&amp; it.ocrInformationList.any{it.information.toUpperCase() == "STATUS" &amp;&amp; it.value.toUpperCase() != "REGULAR"}} ||
 listaDocumentos.any{it.tipo.toUpperCase() == "CNDFGTS" &amp;&amp; it.ocrInformationList != null &amp;&amp; it.ocrInformationList.any{it.information.toUpperCase() == "STATUS" &amp;&amp; it.value.toUpperCase() != "REGULAR"}} ||
 listaDocumentos.any{it.tipo.toUpperCase() == "CNDReceitaFederal" &amp;&amp; it.ocrInformationList != null &amp;&amp; it.ocrInformationList.any{it.information.toUpperCase() == "STATUS" &amp;&amp; it.value.toUpperCase() != "NÃO CONSTAM PENDÊNCIAS"}}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>

@@ -27,7 +27,7 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_11em9cj">
-          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTAS,CNDReceitaFederal,AcoesTrabalhistas"</text>
+          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTA,CNDReceitaFederal,AcoesTrabalhistas"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1homfhj">
@@ -38,7 +38,7 @@
           <text>"MOTOBOY"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0symkc2">
-          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTAS,CNDReceitaFederal,AcoesTrabalhistas"</text>
+          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTA,CNDReceitaFederal,AcoesTrabalhistas"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1c6by8i">
@@ -49,7 +49,7 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0asm7pm">
-          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTAS,CNDReceitaFederal,AcoesTrabalhistas"</text>
+          <text>"CNH,CartaoCNPJ,SINTEGRA,CNDFGTS,CNDTRABALHISTA,CNDReceitaFederal,AcoesTrabalhistas"</text>
         </outputEntry>
       </rule>
     </decisionTable>

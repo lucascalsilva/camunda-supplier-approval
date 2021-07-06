@@ -21,6 +21,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
+import static org.camunda.spin.Spin.JSON;
+
 @Component("processarDocumento")
 @RequiredArgsConstructor
 @Slf4j
@@ -50,7 +52,13 @@ public class ProcessarDocumentoDelegate implements JavaDelegate {
                     .email(email).name(name).files(Arrays.asList(ocrFile)).build();
 
             try {
+                if(log.isDebugEnabled()){
+                    delegateExecution.setVariable("ocrRequest", JSON(ocrRequest));
+                }
                 OCRResult ocrResult = ocrService.processDocument(ocrRequest);
+                if(log.isDebugEnabled()){
+                    delegateExecution.setVariable("ocrResult", JSON(ocrResult));
+                }
                 documento.setOcrInformationList(ocrResult.getData());
                 documento.setStatus("PROCESSADO");
                 listaDocumentos.set(documentoIndex, documento);

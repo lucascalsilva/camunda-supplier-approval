@@ -24,6 +24,9 @@ spring.mail:
   properties.mail.smtp:
     auth: true
     starttls.enable: true
-#logging.level:
+logging.level:
+  br.com.poc.suppliers.interceptors.LoggingInterceptor: DEBUG
+  br.com.poc.suppliers.configuration.RestTemplateConfig: DEBUG
+  br.com.poc.suppliers.delegates.ProcessarDocumentoDelegate: DEBUG
   #org.apache.http: DEBUG
   #httpclient.wire: DEBUG

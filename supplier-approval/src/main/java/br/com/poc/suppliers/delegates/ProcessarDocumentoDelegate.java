@@ -53,11 +53,11 @@ public class ProcessarDocumentoDelegate implements JavaDelegate {
 
             try {
                 if(log.isDebugEnabled()){
-                    delegateExecution.setVariable("ocrRequest", JSON(ocrRequest));
+                    delegateExecution.setVariable("ocrRequest-"+documento.getTipo(), JSON(ocrRequest));
                 }
                 OCRResult ocrResult = ocrService.processDocument(ocrRequest);
                 if(log.isDebugEnabled()){
-                    delegateExecution.setVariable("ocrResult", JSON(ocrResult));
+                    delegateExecution.setVariable("ocrResult-"+documento.getTipo(), JSON(ocrResult));
                 }
                 documento.setOcrInformationList(ocrResult.getData());
                 documento.setStatus("PROCESSADO");
